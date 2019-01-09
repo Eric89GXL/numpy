@@ -67,6 +67,10 @@ def _raw_fft(a, n, axis, is_real, is_forward, fct):
             z[tuple(index)] = a
             a = z
 
+    if a.dtype == 'float128':
+        a = a.astype(float)
+    elif a.dtype == 'complex256':
+        a = a.astype(complex)
     if axis == a.ndim-1:
         r = pfi.execute(a, is_real, is_forward, fct)
     else:
